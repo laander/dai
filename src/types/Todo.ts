@@ -1,4 +1,4 @@
-export type Todo = {
+export interface Todo {
   name: string;
   done: boolean;
-};
+}

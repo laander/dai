@@ -1,15 +1,18 @@
-import React from "react";
 import "./App.css";
 import { List } from "./List";
+import { ChakraProvider, Container, Heading } from "@chakra-ui/react";
+import theme from "../theme";
 
 function App() {
   return (
-    <div className="bg-gray-900 text-white flex flex-col items-center h-screen">
-      <header className="">
-        <h1>Todos</h1>
-      </header>
-      <List />
-    </div>
+    <ChakraProvider theme={theme}>
+      <Container maxW="container.lg" marginTop="4">
+        <header className="">
+          <Heading>Todos</Heading>
+        </header>
+        <List />
+      </Container>
+    </ChakraProvider>
   );
 }
 

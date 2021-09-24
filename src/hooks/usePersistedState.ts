@@ -10,7 +10,9 @@ export default function usePersistedState<T>(key: string, initialValue: T) {
       return initialValue;
     }
   };
+
   const [storedValue, setStoredValue] = useState<T>(readValue);
+
   const setValue = (value: T) => {
     try {
       const valueToStore =
@@ -21,5 +23,6 @@ export default function usePersistedState<T>(key: string, initialValue: T) {
       console.log(error);
     }
   };
+
   return [storedValue, setValue] as const;
 }

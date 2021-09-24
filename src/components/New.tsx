@@ -1,3 +1,4 @@
+import { Input } from "@chakra-ui/react";
 import { useRef, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 
@@ -21,13 +22,13 @@ export function New(props: { addNewTodo: Function }) {
         setNewTodo("");
       }}
     >
-      <input
+      <Input
         ref={inputEl}
-        type="text"
-        placeholder="New todo"
+        placeholder="Add new todo"
         value={newTodo}
-        onChange={(e) => setNewTodo(e.target.value)}
-        className="text-gray-900"
+        onChange={(e) =>
+          e.target.value !== "" ? setNewTodo(e.target.value) : undefined
+        }
       />
     </form>
   );
