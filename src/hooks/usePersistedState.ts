@@ -13,7 +13,9 @@ export default function usePersistedState<T>(key: string, initialValue: T) {
 
   const [storedValue, setStoredValue] = useState<T>(readValue);
 
-  const setValue = (value: T) => {
+  type SetValueType = T | ((current: T) => T);
+
+  const setValue = (value: SetValueType) => {
     try {
       const valueToStore =
         value instanceof Function ? value(storedValue) : value;

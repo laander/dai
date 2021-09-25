@@ -1,34 +1,42 @@
 import { Input } from "@chakra-ui/react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 
-export function New(props: { addNewTodo: Function }) {
+type NewProps = {
+  addNewTodo: (text: string) => void;
+  focus: (e: any) => void;
+  isFocused: boolean;
+};
+
+export function New({ addNewTodo, focus, isFocused }: NewProps) {
   const [newTodo, setNewTodo] = useState("");
-  const inputEl = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   useHotkeys(
-    "ctrl+n",
-    () => {
-      inputEl?.current?.focus();
+    "n",
+    (e) => {
+      e.preventDefault();
+      inputRef?.current?.focus();
     },
-    {
-      enableOnTags: ["INPUT"],
-    }
+    [inputRef]
   );
+  useEffect(() => {
+    isFocused ? inputRef.current?.focus() : inputRef.current?.blur();
+  }, [isFocused]);
   return (
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        props.addNewTodo(newTodo);
+        if (inputRef.current?.value === "") return;
+        addNewTodo(newTodo);
         setNewTodo("");
       }}
     >
       <Input
-        ref={inputEl}
+        ref={inputRef}
         placeholder="Add new todo"
         value={newTodo}
-        onChange={(e) =>
-          e.target.value !== "" ? setNewTodo(e.target.value) : undefined
-        }
+        onFocus={focus}
+        onChange={(e) => setNewTodo(e.target.value)}
       />
     </form>
   );
