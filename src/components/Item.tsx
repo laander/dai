@@ -1,10 +1,11 @@
 import { Input, Checkbox, Stack, Box } from "@chakra-ui/react";
-import { useEffect, useRef } from "react";
+import { memo, useEffect, useRef } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
-import { Todo } from "../types/Todo";
 
 type ItemProps = {
-  todo: Todo;
+  todoId: number;
+  todoName: string;
+  todoDone: boolean;
   index: number;
   toggleDone: (index: number) => void;
   remove: (index: number) => void;
@@ -13,8 +14,10 @@ type ItemProps = {
   isFocused: boolean;
 };
 
-export default function Item({
-  todo,
+const Todo = memo(function Todo({
+  todoId,
+  todoName,
+  todoDone,
   index,
   toggleDone,
   remove,
@@ -29,9 +32,9 @@ export default function Item({
     "backspace",
     () => {
       if (!isFocused) return;
-      remove(index);
+      remove(todoId);
     },
-    [index, isFocused, remove]
+    [todoId, isFocused, remove]
   );
   useHotkeys(
     "enter",
@@ -48,9 +51,9 @@ export default function Item({
     "space",
     () => {
       if (!isFocused) return;
-      toggleDone(index);
+      toggleDone(todoId);
     },
-    [index, isFocused, toggleDone]
+    [todoId, isFocused, toggleDone]
   );
   useHotkeys(
     "esc",
@@ -69,6 +72,8 @@ export default function Item({
     isFocused && ItemRef.current?.focus();
   }, [isFocused]);
 
+  console.log("Rendering Todo:", index);
+
   return (
     <Box
       ref={ItemRef}
@@ -85,21 +90,22 @@ export default function Item({
         borderRadius="md"
       >
         <Checkbox
-          isChecked={todo.done}
-          onChange={() => toggleDone(index)}
-          onFocus={() => focus(index)}
+          isChecked={todoDone}
+          onChange={() => toggleDone(todoId)}
+          onFocus={() => focus(todoId)}
           size="lg"
           variant="round"
         ></Checkbox>
         <Input
-          value={todo.name}
-          onChange={(e) => changeName(index, e.target.value)}
-          onFocus={() => focus(index)}
+          value={todoName}
+          onChange={(e) => changeName(todoId, e.target.value)}
+          onFocus={() => focus(todoId)}
           variant="unstyled"
           ref={InputRef}
-          color={todo.done ? "gray.500" : ""}
+          color={todoDone ? "gray.500" : ""}
         />
       </Stack>
     </Box>
   );
-}
+});
+export default Todo;

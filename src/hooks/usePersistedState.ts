@@ -1,30 +1,32 @@
-import { useState } from "react";
+import { useEffect } from "react";
+import useDebouncedEffect from "./useDebouncedEffect";
+import useUndo from "./useUndo";
 
 export default function usePersistedState<T>(key: string, initialValue: T) {
-  const readValue = (): T => {
+  const [{ present }, { reset, canUndo, canRedo, redo, undo, set }] =
+    useUndo<T>(initialValue);
+
+  useEffect(() => {
     try {
       const item = window.localStorage.getItem(key);
-      return item ? JSON.parse(item) : initialValue;
-    } catch (error) {
-      console.log(error);
-      return initialValue;
-    }
-  };
-
-  const [storedValue, setStoredValue] = useState<T>(readValue);
-
-  type SetValueType = T | ((current: T) => T);
-
-  const setValue = (value: SetValueType) => {
-    try {
-      const valueToStore =
-        value instanceof Function ? value(storedValue) : value;
-      setStoredValue(valueToStore);
-      window.localStorage.setItem(key, JSON.stringify(valueToStore));
+      if (!item) return;
+      const storedTodos = JSON.parse(item);
+      reset(storedTodos);
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [key, reset]);
 
-  return [storedValue, setValue] as const;
+  useDebouncedEffect(
+    () => {
+      try {
+        window.localStorage.setItem(key, JSON.stringify(present));
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    [present, key],
+    1000
+  );
+  return [present, { reset, canUndo, canRedo, redo, undo, set }] as const;
 }

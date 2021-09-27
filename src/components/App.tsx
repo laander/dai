@@ -1,17 +1,109 @@
 import "./App.css";
 import { List } from "./List";
-import { ChakraProvider, Container, Heading } from "@chakra-ui/react";
+import { ChakraProvider, Grid, GridItem } from "@chakra-ui/react";
 import theme from "../theme";
+import Header from "./Header";
+import { useHotkeys } from "react-hotkeys-hook";
+import useTodos from "../hooks/useTodos";
+import { useEffect, useMemo, useState } from "react";
+import { New } from "./New";
 
 function App() {
+  const [
+    { todos, focusedIndex },
+    {
+      toggleDone,
+      changeName,
+      remove,
+      addNewTodo,
+      move,
+      canUndo,
+      canRedo,
+      undo,
+      redo,
+      setFocus,
+    },
+  ] = useTodos();
+
+  useHotkeys(
+    "up",
+    () => {
+      focusedIndex > -1
+        ? setFocus((currentIndex) => currentIndex - 1)
+        : setFocus(todos.length - 1);
+    },
+    {
+      enableOnTags: ["INPUT"],
+    }
+  );
+  useHotkeys(
+    "down",
+    () => {
+      focusedIndex < todos.length - 1
+        ? setFocus((currentIndex) => currentIndex + 1)
+        : setFocus(-1);
+    },
+    {
+      enableOnTags: ["INPUT"],
+    }
+  );
+  useHotkeys(
+    "alt+up",
+    () => {
+      if (focusedIndex === 0) return;
+      move(focusedIndex, -1);
+      setFocus((currentIndex) => currentIndex - 1);
+    },
+    {
+      enableOnTags: ["INPUT"],
+    }
+  );
+  useHotkeys(
+    "alt+down",
+    () => {
+      if (focusedIndex === todos.length - 1) return;
+      move(focusedIndex, 1);
+      setFocus((currentIndex) => currentIndex + 1);
+    },
+    {
+      enableOnTags: ["INPUT"],
+    }
+  );
+
   return (
     <ChakraProvider theme={theme}>
-      <Container maxW="container.lg" marginTop="4">
-        <header className="">
-          <Heading>Todos</Heading>
-        </header>
-        <List />
-      </Container>
+      <Grid
+        templateRows="max-content auto max-content"
+        width="100%"
+        maxHeight="100vh"
+        padding="2"
+      >
+        <GridItem>
+          <Header
+            canUndo={canUndo}
+            canRedo={canRedo}
+            triggerUndo={undo}
+            triggerRedo={redo}
+          />
+        </GridItem>
+        <GridItem __css={{ overflowY: "auto" }}>
+          <List
+            sortedTodos={todos}
+            focusedIndex={focusedIndex}
+            setFocus={setFocus}
+            toggleDone={toggleDone}
+            changeName={changeName}
+            remove={remove}
+          />
+        </GridItem>
+        <GridItem>
+          <New
+            addNewTodo={addNewTodo}
+            focus={() => setFocus(-1)}
+            isFocused={focusedIndex === -1}
+          />
+        </GridItem>
+      </Grid>
     </ChakraProvider>
   );
 }
