@@ -5,7 +5,6 @@ import theme from "../theme";
 import Header from "./Header";
 import { useHotkeys } from "react-hotkeys-hook";
 import useTodos from "../hooks/useTodos";
-import { useEffect, useMemo, useState } from "react";
 import { New } from "./New";
 
 function App() {
@@ -34,7 +33,8 @@ function App() {
     },
     {
       enableOnTags: ["INPUT"],
-    }
+    },
+    [setFocus]
   );
   useHotkeys(
     "down",
@@ -45,7 +45,8 @@ function App() {
     },
     {
       enableOnTags: ["INPUT"],
-    }
+    },
+    [setFocus]
   );
   useHotkeys(
     "alt+up",
@@ -56,7 +57,8 @@ function App() {
     },
     {
       enableOnTags: ["INPUT"],
-    }
+    },
+    [setFocus, move]
   );
   useHotkeys(
     "alt+down",
@@ -67,7 +69,8 @@ function App() {
     },
     {
       enableOnTags: ["INPUT"],
-    }
+    },
+    [setFocus, move]
   );
 
   return (
