@@ -1,4 +1,3 @@
-import "./App.css";
 import { List } from "./List";
 import { ChakraProvider, Grid, GridItem } from "@chakra-ui/react";
 import theme from "../theme";

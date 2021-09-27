@@ -21,6 +21,27 @@ const styles: GlobalStyles = {
   }),
 };
 
+const colors = {
+  gray: {
+    50: "#FCFCFC",
+    100: "#F7F7F7",
+    200: "#F0F0F0",
+    300: "#E0E0E0",
+    400: "#BFBFBF",
+    500: "#969696",
+    600: "#696969",
+    700: "#474747",
+    800: "#2B2B2B",
+    900: "#202020",
+  },
+};
+
+const fonts = {
+  body: "-apple-system, BlinkMacSystemFont, system-ui, sans-serif",
+  heading: "-apple-system, BlinkMacSystemFont, system-ui, sans-serif",
+  mono: "Menlo, monospace",
+};
+
 const Checkbox = {
   variants: {
     round: {
@@ -34,6 +55,8 @@ const Checkbox = {
 const theme = extendTheme({
   config,
   styles,
+  colors,
+  fonts,
   components: {
     Checkbox,
   },
