@@ -4,6 +4,10 @@ import { arrayMoveImmutable } from "array-move";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 const generateId = (): number => Math.random() * 100000000000000000;
+const sortTodos = (todos: Todo[]) =>
+  [...todos].sort((t1, t2) => {
+    return t1.done === t2.done ? 0 : t1.done ? 1 : -1;
+  });
 
 export default function useTodos() {
   const [current, { set, canRedo, canUndo, undo, redo, reset }] =
@@ -12,14 +16,16 @@ export default function useTodos() {
 
   const addNewTodo = useCallback(
     (newTodo: string) => {
-      set((current) => [
-        ...current,
-        {
-          id: generateId(),
-          name: newTodo,
-          done: false,
-        },
-      ]);
+      set((current) =>
+        sortTodos([
+          ...current,
+          {
+            id: generateId(),
+            name: newTodo,
+            done: false,
+          },
+        ])
+      );
     },
     [set]
   );
@@ -27,10 +33,12 @@ export default function useTodos() {
   const toggleDone = useCallback(
     (todoId: number) => {
       set((current) =>
-        current.map((todo) => {
-          if (todo.id === todoId) return { ...todo, done: !todo.done };
-          return todo;
-        })
+        sortTodos(
+          current.map((todo) => {
+            if (todo.id === todoId) return { ...todo, done: !todo.done };
+            return todo;
+          })
+        )
       );
     },
     [set]
@@ -38,7 +46,7 @@ export default function useTodos() {
 
   const remove = useCallback(
     (todoId: number) => {
-      set((current) => current.filter((todo) => todo.id !== todoId));
+      set((current) => sortTodos(current.filter((todo) => todo.id !== todoId)));
     },
     [set]
   );
@@ -56,26 +64,18 @@ export default function useTodos() {
   );
 
   const move = useCallback(
-    (todoId: number, direction: number) => {
+    (focusedIndex: number, direction: number) => {
       set((current) => {
-        const index = current.findIndex((todo) => todo.id === todoId);
-        return arrayMoveImmutable(current, index, index + direction);
+        return sortTodos(
+          arrayMoveImmutable(current, focusedIndex, focusedIndex + direction)
+        );
       });
     },
     [set]
   );
 
-  useEffect(() => {
-    console.log("sumthing changes");
-  }, [changeName]);
-
-  const sortedTodos = useMemo(
-    () => [...current].sort((t1) => (t1.done ? 1 : -1)),
-    [current]
-  );
-
   return [
-    { todos: sortedTodos, focusedIndex },
+    { todos: current, focusedIndex },
     {
       setTodos: set,
       addNewTodo,
