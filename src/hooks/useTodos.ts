@@ -1,8 +1,9 @@
 import { Todo } from "../types/Todo";
 import usePersistedState from "./usePersistedState";
 import { arrayMoveImmutable } from "array-move";
-import { useCallback, useState } from "react";
-import defaultTodos from "../static/defaultTodos.json";
+import { useCallback, useEffect, useState } from "react";
+import defaultTodos from "../constants/defaultTodos.json";
+import useUndo from "./useUndo";
 
 const generateId = (): number => Math.random() * 100000000000000000;
 const sortTodos = (todos: Todo[]) =>
@@ -11,11 +12,30 @@ const sortTodos = (todos: Todo[]) =>
   });
 
 export default function useTodos() {
-  const [current, { set, canRedo, canUndo, undo, redo, reset }] =
-    usePersistedState<Todo[]>("todos", defaultTodos);
   const [focusedIndex, setFocus] = useState(-1);
 
-  const addNewTodo = useCallback(
+  const {
+    present: todos,
+    reset,
+    canUndo,
+    canRedo,
+    redo,
+    undo,
+    set,
+  } = useUndo<Todo[]>([]);
+
+  const [initialValue] = usePersistedState<Todo[]>(
+    "todos",
+    defaultTodos,
+    todos
+  );
+
+  useEffect(() => {
+    // set initial todos from either localstorage or default fallback
+    reset(initialValue());
+  }, [reset, initialValue]);
+
+  const addNew = useCallback(
     (newTodo: string) => {
       set((current) =>
         sortTodos([
@@ -75,24 +95,18 @@ export default function useTodos() {
     [set]
   );
 
-  return [
-    {
-      todos: current,
-      focusedIndex,
-    },
-    {
-      setTodos: set,
-      addNewTodo,
-      toggleDone,
-      remove,
-      changeName,
-      move,
-      canRedo,
-      canUndo,
-      undo,
-      redo,
-      reset,
-      setFocus,
-    },
-  ] as const;
+  return {
+    todos,
+    focusedIndex,
+    addNew,
+    toggleDone,
+    remove,
+    changeName,
+    move,
+    canRedo,
+    canUndo,
+    undo,
+    redo,
+    setFocus,
+  };
 }

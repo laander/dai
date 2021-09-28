@@ -3,6 +3,7 @@ import { ArrowSmLeftIcon, ArrowSmRightIcon } from "@heroicons/react/outline";
 import { Flex } from "@chakra-ui/layout";
 import { useHotkeys } from "react-hotkeys-hook";
 import { Tooltip } from "@chakra-ui/tooltip";
+import { memo } from "react";
 
 type HeaderProps = {
   canUndo: boolean;
@@ -11,7 +12,7 @@ type HeaderProps = {
   triggerRedo: () => void;
 };
 
-export default function Header({
+const Header = memo(function Header({
   canUndo,
   canRedo,
   triggerUndo,
@@ -60,4 +61,6 @@ export default function Header({
       </ButtonGroup>
     </Flex>
   );
-}
+});
+
+export default Header;

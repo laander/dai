@@ -10,7 +10,7 @@ const springTransition = {
 };
 
 type ListProps = {
-  sortedTodos: Todo[];
+  todos: Todo[];
   focusedIndex: number;
   setFocus: (index: number) => void;
   toggleDone: (index: number) => void;
@@ -19,7 +19,7 @@ type ListProps = {
 };
 
 export function List({
-  sortedTodos,
+  todos,
   setFocus,
   focusedIndex,
   toggleDone,
@@ -28,7 +28,7 @@ export function List({
 }: ListProps) {
   return (
     <Flex direction="column" my="4" width="100%">
-      {sortedTodos.map((todo, index) => (
+      {todos.map((todo, index) => (
         <MotionBox key={todo.id} layout transition={springTransition as any}>
           <Item
             todoId={todo.id}

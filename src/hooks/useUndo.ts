@@ -8,7 +8,8 @@ enum ActionType {
 }
 
 export interface Actions<T> {
-  set: (newPresent: T | ((currentPresent: T) => T)) => void;
+  present: T;
+  set: (newPresent: (currentPresent: T) => T) => void;
   reset: (newPresent: T) => void;
   undo: () => void;
   redo: () => void;
@@ -18,8 +19,7 @@ export interface Actions<T> {
 
 interface Action<T> {
   type: ActionType;
-  newPresent?: T;
-  newPresentFunc?: (currentPresent: T) => T;
+  newPresent?: (currentPresent: T) => T;
 }
 
 export interface State<T> {
@@ -42,10 +42,8 @@ const reducer = <T>(state: State<T>, action: Action<T>) => {
       if (past.length === 0) {
         return state;
       }
-
       const previous = past[past.length - 1];
       const newPast = past.slice(0, past.length - 1);
-
       return {
         past: newPast,
         present: previous,
@@ -59,7 +57,6 @@ const reducer = <T>(state: State<T>, action: Action<T>) => {
       }
       const next = future[0];
       const newFuture = future.slice(1);
-
       return {
         past: [...past, present],
         present: next,
@@ -68,36 +65,36 @@ const reducer = <T>(state: State<T>, action: Action<T>) => {
     }
 
     case ActionType.Set: {
-      let newPresent;
-      if (typeof action.newPresentFunc === "function") {
-        newPresent = action.newPresentFunc?.(state.present);
-      } else {
-        newPresent = action.newPresent;
+      if (!action.newPresent) {
+        return state;
       }
-
-      if (newPresent === present) {
+      const { newPresent } = action;
+      let newPresentVal = newPresent(state.present);
+      if (newPresentVal === present) {
         return state;
       }
       return {
         past: [...past, present],
-        present: newPresent,
+        present: newPresentVal,
         future: [],
       };
     }
 
     case ActionType.Reset: {
+      if (!action.newPresent) {
+        return state;
+      }
       const { newPresent } = action;
-
       return {
         past: [],
-        present: newPresent,
+        present: newPresent(state.present),
         future: [],
       };
     }
   }
 };
 
-const useUndo = <T>(initialPresent: T): [State<T>, Actions<T>] => {
+const useUndo = <T>(initialPresent: T): Actions<T> => {
   const [state, dispatch] = useReducer(reducer, {
     ...initialState,
     present: initialPresent,
@@ -110,27 +107,29 @@ const useUndo = <T>(initialPresent: T): [State<T>, Actions<T>] => {
       dispatch({ type: ActionType.Undo });
     }
   }, [canUndo]);
+
   const redo = useCallback(() => {
     if (canRedo) {
       dispatch({ type: ActionType.Redo });
     }
   }, [canRedo]);
-  const set = useCallback((newPresent: T | ((currentPresent: T) => T)) => {
-    if (typeof newPresent === "function") {
-      return dispatch({
-        type: ActionType.Set,
-        newPresentFunc: newPresent as (currentPresent: T) => T,
-      });
-    } else {
-      return dispatch({ type: ActionType.Set, newPresent });
-    }
+
+  const set = useCallback((newPresent: (currentPresent: T) => T) => {
+    return dispatch({
+      type: ActionType.Set,
+      newPresent,
+    });
   }, []);
+
   const reset = useCallback(
-    (newPresent: T) => dispatch({ type: ActionType.Reset, newPresent }),
+    (newPresent: T) =>
+      dispatch({
+        type: ActionType.Reset,
+        newPresent: () => newPresent,
+      }),
     []
   );
-
-  return [state, { set, reset, undo, redo, canUndo, canRedo }];
+  return { present: state.present, set, reset, undo, redo, canUndo, canRedo };
 };
 
 export default useUndo;

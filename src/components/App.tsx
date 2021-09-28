@@ -4,24 +4,23 @@ import theme from "../theme";
 import Header from "./Header";
 import { useHotkeys } from "react-hotkeys-hook";
 import useTodos from "../hooks/useTodos";
-import { New } from "./New";
+import New from "./New";
 
 function App() {
-  const [
-    { todos, focusedIndex },
-    {
-      toggleDone,
-      changeName,
-      remove,
-      addNewTodo,
-      move,
-      canUndo,
-      canRedo,
-      undo,
-      redo,
-      setFocus,
-    },
-  ] = useTodos();
+  const {
+    todos,
+    focusedIndex,
+    toggleDone,
+    changeName,
+    remove,
+    addNew,
+    move,
+    canUndo,
+    canRedo,
+    undo,
+    redo,
+    setFocus,
+  } = useTodos();
 
   useHotkeys(
     "up",
@@ -90,7 +89,7 @@ function App() {
         </GridItem>
         <GridItem maxHeight="100%" __css={{ overflowY: "auto" }}>
           <List
-            sortedTodos={todos}
+            todos={todos}
             focusedIndex={focusedIndex}
             setFocus={setFocus}
             toggleDone={toggleDone}
@@ -100,8 +99,8 @@ function App() {
         </GridItem>
         <GridItem>
           <New
-            addNewTodo={addNewTodo}
-            focus={() => setFocus(-1)}
+            addNewTodo={addNew}
+            focus={setFocus}
             isFocused={focusedIndex === -1}
           />
         </GridItem>

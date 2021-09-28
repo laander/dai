@@ -7,11 +7,11 @@ type ItemProps = {
   todoName: string;
   todoDone: boolean;
   index: number;
+  isFocused: boolean;
   toggleDone: (index: number) => void;
   remove: (index: number) => void;
   changeName: (index: number, text: string) => void;
   focus: (index: number) => void;
-  isFocused: boolean;
 };
 
 const Todo = memo(function Todo({
@@ -40,7 +40,11 @@ const Todo = memo(function Todo({
     "enter",
     () => {
       if (!isFocused) return;
-      InputRef.current?.focus();
+      if (InputRef.current === document.activeElement) {
+        InputRef.current?.blur();
+      } else {
+        InputRef.current?.focus();
+      }
     },
     {
       enableOnTags: ["INPUT"],

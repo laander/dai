@@ -1,32 +1,33 @@
-import { useEffect } from "react";
+import { useCallback } from "react";
 import useDebouncedEffect from "./useDebouncedEffect";
-import useUndo from "./useUndo";
 
-export default function usePersistedState<T>(key: string, initialValue: T) {
-  const [{ present }, { reset, canUndo, canRedo, redo, undo, set }] =
-    useUndo<T>(initialValue);
-
-  useEffect(() => {
+export default function usePersistedState<T>(
+  key: string,
+  defaultValue: T,
+  watchState: T
+) {
+  const initialState = useCallback(() => {
     try {
       const item = window.localStorage.getItem(key);
-      if (!item) return;
-      const storedTodos = JSON.parse(item);
-      reset(storedTodos);
+      if (item) return JSON.parse(item);
+      return defaultValue;
     } catch (error) {
       console.log(error);
+      return defaultValue;
     }
-  }, [key, reset]);
+  }, [defaultValue, key]);
 
   useDebouncedEffect(
     () => {
       try {
-        window.localStorage.setItem(key, JSON.stringify(present));
+        window.localStorage.setItem(key, JSON.stringify(watchState));
       } catch (error) {
         console.log(error);
       }
     },
-    [present, key],
+    [watchState, key],
     1000
   );
-  return [present, { reset, canUndo, canRedo, redo, undo, set }] as const;
+
+  return [initialState];
 }

@@ -1,5 +1,5 @@
 import { Input } from "@chakra-ui/react";
-import { useEffect, useRef, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 
 type NewProps = {
@@ -8,7 +8,7 @@ type NewProps = {
   isFocused: boolean;
 };
 
-export function New({ addNewTodo, focus, isFocused }: NewProps) {
+const New = memo(function New({ addNewTodo, focus, isFocused }: NewProps) {
   const [newTodo, setNewTodo] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -38,10 +38,12 @@ export function New({ addNewTodo, focus, isFocused }: NewProps) {
         ref={inputRef}
         placeholder="Add new todo"
         value={newTodo}
-        onFocus={focus}
+        onFocus={() => focus(-1)}
         onChange={(e) => setNewTodo(e.target.value)}
         focusBorderColor="teal.400"
       />
     </form>
   );
-}
+});
+
+export default New;
