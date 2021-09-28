@@ -48,9 +48,9 @@ function App() {
     [setFocus]
   );
   useHotkeys(
-    "alt+up",
+    "cmd+up",
     () => {
-      if (focusedIndex === 0) return;
+      if (focusedIndex <= 0) return;
       move(focusedIndex, -1);
       setFocus((currentIndex) => currentIndex - 1);
     },
@@ -60,9 +60,9 @@ function App() {
     [setFocus, move]
   );
   useHotkeys(
-    "alt+down",
+    "cmd+down",
     () => {
-      if (focusedIndex === todos.length - 1) return;
+      if (focusedIndex === -1 || focusedIndex === todos.length - 1) return;
       move(focusedIndex, 1);
       setFocus((currentIndex) => currentIndex + 1);
     },

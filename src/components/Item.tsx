@@ -25,7 +25,7 @@ const Todo = memo(function Todo({
   focus,
   isFocused,
 }: ItemProps) {
-  const ItemRef = useRef<HTMLInputElement>(null);
+  const ItemRef = useRef<HTMLDivElement>(null);
   const InputRef = useRef<HTMLInputElement>(null);
 
   useHotkeys(
@@ -71,8 +71,6 @@ const Todo = memo(function Todo({
     !isFocused && InputRef.current?.blur();
     isFocused && ItemRef.current?.focus();
   }, [isFocused]);
-
-  console.log("Rendering Todo:", index);
 
   return (
     <Box

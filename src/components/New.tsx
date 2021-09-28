@@ -11,17 +11,20 @@ type NewProps = {
 export function New({ addNewTodo, focus, isFocused }: NewProps) {
   const [newTodo, setNewTodo] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
+
   useHotkeys(
-    "n",
+    "cmd+n",
     (e) => {
       e.preventDefault();
       inputRef?.current?.focus();
     },
     [inputRef]
   );
+
   useEffect(() => {
     isFocused ? inputRef.current?.focus() : inputRef.current?.blur();
   }, [isFocused]);
+
   return (
     <form
       onSubmit={(e) => {

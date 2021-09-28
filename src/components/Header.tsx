@@ -18,28 +18,14 @@ export default function Header({
   triggerRedo,
 }: HeaderProps) {
   useHotkeys(
-    "left",
+    "cmd+z",
     () => {
       if (canUndo) triggerUndo();
     },
     [canUndo, triggerUndo]
   );
   useHotkeys(
-    "z",
-    () => {
-      if (canUndo) triggerUndo();
-    },
-    [canUndo, triggerUndo]
-  );
-  useHotkeys(
-    "right",
-    () => {
-      if (canRedo) triggerRedo();
-    },
-    [canRedo, triggerRedo]
-  );
-  useHotkeys(
-    "x",
+    "cmd+shift+z",
     () => {
       if (canRedo) triggerRedo();
     },
