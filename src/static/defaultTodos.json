@@ -1,0 +1,17 @@
+[
+  {
+    "id": 1,
+    "name": "Dai is a minimalistic todo app that does as little as possible 👋",
+    "done": false
+  },
+  {
+    "id": 2,
+    "name": "It's keyboard first and super fast - no account, sync or bloat 🚀",
+    "done": false
+  },
+  {
+    "id": 3,
+    "name": "Open source and free. Have a productive day! ❤️",
+    "done": false
+  }
+]

@@ -2,6 +2,7 @@ import { Todo } from "../types/Todo";
 import usePersistedState from "./usePersistedState";
 import { arrayMoveImmutable } from "array-move";
 import { useCallback, useState } from "react";
+import defaultTodos from "../static/defaultTodos.json";
 
 const generateId = (): number => Math.random() * 100000000000000000;
 const sortTodos = (todos: Todo[]) =>
@@ -11,7 +12,7 @@ const sortTodos = (todos: Todo[]) =>
 
 export default function useTodos() {
   const [current, { set, canRedo, canUndo, undo, redo, reset }] =
-    usePersistedState<Todo[]>("todos", []);
+    usePersistedState<Todo[]>("todos", defaultTodos);
   const [focusedIndex, setFocus] = useState(-1);
 
   const addNewTodo = useCallback(

@@ -58,6 +58,8 @@
         "title": "Dai",
         "width": 500,
         "height": 700,
+        "minWidth": 260,
+        "minHeight": 260,
         "resizable": true,
         "fullscreen": false,
         "center": true,
