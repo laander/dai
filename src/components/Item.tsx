@@ -19,7 +19,7 @@ type ItemProps = {
   toggleDone: (index: number) => void;
   remove: (index: number) => void;
   changeName: (index: number, text: string) => void;
-  focus: (index: number) => void;
+  setFocus: (index: number) => void;
 };
 
 const Todo = memo(function Todo({
@@ -30,7 +30,7 @@ const Todo = memo(function Todo({
   toggleDone,
   remove,
   changeName,
-  focus,
+  setFocus,
   isFocused,
 }: ItemProps) {
   const ItemRef = useRef<HTMLDivElement>(null);
@@ -104,7 +104,7 @@ const Todo = memo(function Todo({
         <Checkbox
           isChecked={todoDone}
           onChange={() => toggleDone(todoId)}
-          onFocus={() => focus(index)}
+          onFocus={() => setFocus(index)}
           colorScheme="teal"
           size="lg"
           variant="round"
@@ -112,7 +112,7 @@ const Todo = memo(function Todo({
         <Input
           value={todoName}
           onChange={(e) => changeName(todoId, e.target.value)}
-          onFocus={() => focus(index)}
+          onFocus={() => setFocus(index)}
           variant="unstyled"
           ref={InputRef}
           color={todoDone ? "gray.500" : ""}

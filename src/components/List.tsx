@@ -11,14 +11,8 @@ type ListProps = {
   remove: (index: number) => void;
 };
 
-export function List({
-  todos,
-  setFocus,
-  focusedIndex,
-  toggleDone,
-  changeName,
-  remove,
-}: ListProps) {
+export function List(props: ListProps) {
+  const { todos, focusedIndex, ...rest } = props;
   return (
     <Flex direction="column" my="4" width="100%">
       {todos.map((todo, index) => (
@@ -28,11 +22,8 @@ export function List({
           todoName={todo.name}
           todoDone={todo.done}
           index={index}
-          toggleDone={toggleDone}
-          changeName={changeName}
-          remove={remove}
-          focus={setFocus}
           isFocused={focusedIndex === index}
+          {...rest}
         />
       ))}
     </Flex>
