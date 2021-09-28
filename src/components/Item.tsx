@@ -93,6 +93,7 @@ const Todo = memo(function Todo({
           isChecked={todoDone}
           onChange={() => toggleDone(todoId)}
           onFocus={() => focus(index)}
+          colorScheme="teal"
           size="lg"
           variant="round"
         ></Checkbox>

@@ -37,6 +37,7 @@ export function New({ addNewTodo, focus, isFocused }: NewProps) {
         value={newTodo}
         onFocus={focus}
         onChange={(e) => setNewTodo(e.target.value)}
+        focusBorderColor="teal.400"
       />
     </form>
   );

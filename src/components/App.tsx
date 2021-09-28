@@ -88,7 +88,7 @@ function App() {
             triggerRedo={redo}
           />
         </GridItem>
-        <GridItem __css={{ overflowY: "auto" }}>
+        <GridItem maxHeight="100%" __css={{ overflowY: "auto" }}>
           <List
             sortedTodos={todos}
             focusedIndex={focusedIndex}

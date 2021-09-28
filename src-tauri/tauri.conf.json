@@ -1,6 +1,6 @@
 {
   "package": {
-    "productName": "tudu",
+    "productName": "Dai",
     "version": "0.1.0"
   },
   "build": {
@@ -13,11 +13,13 @@
     "bundle": {
       "active": true,
       "targets": "all",
-      "identifier": "com.tauri.dev",
+      "identifier": "com.dai.dev",
       "icon": [
-        "icons/32x32.png",
-        "icons/128x128.png",
-        "icons/128x128@2x.png",
+        "icons/icon-32.png",
+        "icons/icon-64.png",
+        "icons/icon-128.png",
+        "icons/icon-256.png",
+        "icons/icon-512.png",
         "icons/icon.icns",
         "icons/icon.ico"
       ],
@@ -49,15 +51,17 @@
       "active": false
     },
     "allowlist": {
-      "all": true
+      "all": false
     },
     "windows": [
       {
-        "title": "Tudu",
-        "width": 800,
-        "height": 600,
+        "title": "Dai",
+        "width": 500,
+        "height": 700,
         "resizable": true,
-        "fullscreen": false
+        "fullscreen": false,
+        "center": true,
+        "focus": true
       }
     ],
     "security": {

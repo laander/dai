@@ -3,7 +3,7 @@ import { extendTheme, ThemeConfig } from "@chakra-ui/react";
 
 const config: ThemeConfig = {
   initialColorMode: "dark",
-  useSystemColorMode: false,
+  useSystemColorMode: true,
 };
 
 const styles: GlobalStyles = {
@@ -31,8 +31,8 @@ const colors = {
     500: "#969696",
     600: "#696969",
     700: "#474747",
-    800: "#2B2B2B",
-    900: "#202020",
+    800: "#282828",
+    900: "#1E1E1E",
   },
 };
 
