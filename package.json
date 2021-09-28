@@ -1,10 +1,9 @@
 {
-  "name": "tudu",
+  "name": "dai",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
     "@chakra-ui/react": "^1.6.8",
-    "@craco/craco": "^6.3.0",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
     "@heroicons/react": "^1.0.4",
@@ -30,9 +29,9 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "craco start",
-    "build": "craco build",
-    "test": "craco test",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
     "eject": "react-scripts eject",
     "tauri": "tauri"
   },
@@ -55,9 +54,6 @@
     ]
   },
   "devDependencies": {
-    "@tauri-apps/cli": "^1.0.0-beta.10",
-    "autoprefixer": "^9.8.6",
-    "postcss": "^7.0.36",
-    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.14"
+    "@tauri-apps/cli": "^1.0.0-beta.10"
   }
 }
