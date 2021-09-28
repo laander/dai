@@ -1,6 +1,14 @@
 import { Input, Checkbox, Stack, Box } from "@chakra-ui/react";
 import { memo, useEffect, useRef } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
+import { Box as LayoutBox, BoxProps } from "@chakra-ui/layout";
+import { motion } from "framer-motion";
+
+export const MotionBox = motion<BoxProps>(LayoutBox);
+const itemTransition = {
+  type: "tween",
+  duration: 0.2,
+};
 
 type ItemProps = {
   todoId: number;
@@ -77,7 +85,9 @@ const Todo = memo(function Todo({
   }, [isFocused]);
 
   return (
-    <Box
+    <MotionBox
+      layout
+      transition={itemTransition as any}
       ref={ItemRef}
       __css={
         { _focus: { outline: "none" } } // removes gap between children?
@@ -108,7 +118,7 @@ const Todo = memo(function Todo({
           color={todoDone ? "gray.500" : ""}
         />
       </Stack>
-    </Box>
+    </MotionBox>
   );
 });
 export default Todo;
