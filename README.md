@@ -2,9 +2,9 @@
 
 A minimalistic todo app that does as little as possible.
 
-- Keyboard first
-- Super fast (no account or sync)
-- Small (7 mb)
+- [Keyboard first](blob/main/src/static/hotkeys.ts) (don't lift your fingers)
+- Super fast (no cloud)
+- Tiny (only 7 mb)
 
 ---
 

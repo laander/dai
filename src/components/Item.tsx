@@ -1,9 +1,9 @@
-import { Input, Checkbox, Stack, Box } from "@chakra-ui/react";
+import { Input, Checkbox, Stack } from "@chakra-ui/react";
 import { memo, useEffect, useRef } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { Box as LayoutBox, BoxProps } from "@chakra-ui/layout";
 import { motion } from "framer-motion";
-
+import { Keys } from "../constants/hotkeys";
 export const MotionBox = motion<BoxProps>(LayoutBox);
 const itemTransition = {
   type: "tween",
@@ -37,7 +37,7 @@ const Todo = memo(function Todo({
   const InputRef = useRef<HTMLInputElement>(null);
 
   useHotkeys(
-    "backspace",
+    Keys.DELETE,
     () => {
       if (!isFocused) return;
       remove(todoId);
@@ -45,7 +45,7 @@ const Todo = memo(function Todo({
     [todoId, isFocused, remove]
   );
   useHotkeys(
-    "enter",
+    Keys.EDIT,
     () => {
       if (!isFocused) return;
       if (InputRef.current === document.activeElement) {
@@ -60,7 +60,7 @@ const Todo = memo(function Todo({
     [InputRef, isFocused]
   );
   useHotkeys(
-    "space",
+    Keys.TOGGLE_DONE,
     () => {
       if (!isFocused) return;
       toggleDone(todoId);
@@ -68,7 +68,7 @@ const Todo = memo(function Todo({
     [todoId, isFocused, toggleDone]
   );
   useHotkeys(
-    "esc",
+    Keys.EXIT_EDIT,
     () => {
       if (!isFocused) return;
       InputRef.current?.blur();

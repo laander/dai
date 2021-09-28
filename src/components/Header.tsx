@@ -4,6 +4,7 @@ import { Flex } from "@chakra-ui/layout";
 import { useHotkeys } from "react-hotkeys-hook";
 import { Tooltip } from "@chakra-ui/tooltip";
 import { memo } from "react";
+import { Keys } from "../constants/hotkeys";
 
 type HeaderProps = {
   canUndo: boolean;
@@ -19,14 +20,14 @@ const Header = memo(function Header({
   triggerRedo,
 }: HeaderProps) {
   useHotkeys(
-    "cmd+z",
+    Keys.UNDO,
     () => {
       if (canUndo) triggerUndo();
     },
     [canUndo, triggerUndo]
   );
   useHotkeys(
-    "cmd+shift+z",
+    Keys.REDO,
     () => {
       if (canRedo) triggerRedo();
     },

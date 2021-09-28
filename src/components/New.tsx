@@ -1,6 +1,7 @@
 import { Input } from "@chakra-ui/react";
 import { memo, useEffect, useRef, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
+import { Keys } from "../constants/hotkeys";
 
 type NewProps = {
   addNewTodo: (text: string) => void;
@@ -13,7 +14,7 @@ const New = memo(function New({ addNewTodo, focus, isFocused }: NewProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   useHotkeys(
-    "cmd+n",
+    Keys.NEW,
     (e) => {
       e.preventDefault();
       inputRef?.current?.focus();

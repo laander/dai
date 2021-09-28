@@ -5,6 +5,7 @@ import Header from "./Header";
 import { useHotkeys } from "react-hotkeys-hook";
 import useTodos from "../hooks/useTodos";
 import New from "./New";
+import { Keys } from "../constants/hotkeys";
 
 function App() {
   const {
@@ -23,7 +24,7 @@ function App() {
   } = useTodos();
 
   useHotkeys(
-    "up",
+    Keys.NAVIGATE_UP,
     () => {
       focusedIndex > -1
         ? setFocus((currentIndex) => currentIndex - 1)
@@ -35,7 +36,7 @@ function App() {
     [setFocus]
   );
   useHotkeys(
-    "down",
+    Keys.NAVIGATE_DOWN,
     () => {
       focusedIndex < todos.length - 1
         ? setFocus((currentIndex) => currentIndex + 1)
@@ -47,7 +48,7 @@ function App() {
     [setFocus]
   );
   useHotkeys(
-    "cmd+up",
+    Keys.MOVE_UP,
     () => {
       if (focusedIndex <= 0) return;
       move(focusedIndex, -1);
@@ -59,7 +60,7 @@ function App() {
     [setFocus, move]
   );
   useHotkeys(
-    "cmd+down",
+    Keys.MOVE_DOWN,
     () => {
       if (focusedIndex === -1 || focusedIndex === todos.length - 1) return;
       move(focusedIndex, 1);
