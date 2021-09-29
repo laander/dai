@@ -13,14 +13,14 @@ const styles: GlobalStyles = {
     },
     // scrollbar not working atm
     "::-webkit-scrollbar": {
-      backgroundColor: mode("white", "gray.900")(props),
+      backgroundColor: mode("transparent", "transparent")(props),
       width: "2",
     },
     "::-webkit-scrollbar-track": {
-      backgroundColor: mode("white", "gray.900")(props),
+      backgroundColor: mode("transparent", "transparent")(props),
     },
     "::-webkit-scrollbar-thumb": {
-      backgroundColor: mode("gray.300", "gray.700")(props),
+      backgroundColor: mode("gray.300", "whiteAlpha.100")(props),
       borderRadius: "full",
     },
   }),
