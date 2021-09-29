@@ -1,7 +1,6 @@
 {
   "name": "dai",
-  "version": "0.1.0",
-  "private": true,
+  "version": "0.1.1",
   "dependencies": {
     "@chakra-ui/react": "^1.6.8",
     "@emotion/react": "^11",

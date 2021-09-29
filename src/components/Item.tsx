@@ -85,7 +85,7 @@ const Todo = memo(function Todo({
       ItemRef.current?.focus();
   }, [isFocused]);
 
-  const itemBackground = useColorModeValue("gray.100", "gray.800");
+  const itemBackground = useColorModeValue("gray.50", "gray.800");
 
   return (
     <MotionBox

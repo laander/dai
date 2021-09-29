@@ -30,16 +30,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "61604a8f862e1d5c3229fdd78f8b02c68dcf73a4c4b05fd636d12240aaa242c1"
 
 [[package]]
-name = "app"
-version = "0.1.0"
-dependencies = [
- "serde",
- "serde_json",
- "tauri",
- "tauri-build",
-]
-
-[[package]]
 name = "arrayref"
 version = "0.3.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -487,6 +477,16 @@ checksum = "dfae75de57f2b2e85e8768c3ea840fd159c8f33e2b6522c7835b7abac81be16e"
 dependencies = [
  "quote",
  "syn",
+]
+
+[[package]]
+name = "dai"
+version = "0.1.1"
+dependencies = [
+ "serde",
+ "serde_json",
+ "tauri",
+ "tauri-build",
 ]
 
 [[package]]
