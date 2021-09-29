@@ -80,9 +80,8 @@ const Todo = memo(function Todo({
   );
 
   useEffect(() => {
-    !isFocused && InputRef.current?.blur();
-    isFocused &&
-      InputRef.current !== document.activeElement &&
+    if (!isFocused) InputRef.current?.blur();
+    if (isFocused && InputRef.current !== document.activeElement)
       ItemRef.current?.focus();
   }, [isFocused]);
 
