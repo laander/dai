@@ -10,4 +10,5 @@ export enum Keys {
   EDIT = "enter",
   EXIT_EDIT = "esc",
   NEW = "cmd+n",
+  TOGGLE_THEME = "cmd+b",
 }

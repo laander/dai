@@ -1,4 +1,4 @@
-import { Input, Checkbox, Stack } from "@chakra-ui/react";
+import { Input, Checkbox, Stack, useColorModeValue } from "@chakra-ui/react";
 import { memo, useEffect, useRef } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { Box as LayoutBox, BoxProps } from "@chakra-ui/layout";
@@ -81,24 +81,28 @@ const Todo = memo(function Todo({
 
   useEffect(() => {
     !isFocused && InputRef.current?.blur();
-    isFocused && ItemRef.current?.focus();
+    isFocused &&
+      InputRef.current !== document.activeElement &&
+      ItemRef.current?.focus();
   }, [isFocused]);
+
+  const itemBackground = useColorModeValue("gray.100", "gray.800");
 
   return (
     <MotionBox
       layout
       transition={itemTransition as any}
       ref={ItemRef}
-      __css={
-        { _focus: { outline: "none" } } // removes gap between children?
-      }
+      __css={{ _focus: { outline: "none" } }}
       tabIndex={index}
     >
       <Stack
         direction="row"
         px="2"
         py="2"
-        background={isFocused ? "gray.800" : ""}
+        background={isFocused ? itemBackground : ""}
+        transitionProperty="background-color"
+        transitionDuration="normal"
         borderRadius="md"
       >
         <Checkbox

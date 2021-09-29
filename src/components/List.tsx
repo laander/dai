@@ -14,7 +14,7 @@ type ListProps = {
 export function List(props: ListProps) {
   const { todos, focusedIndex, ...rest } = props;
   return (
-    <Flex direction="column" my="4" width="100%">
+    <Flex direction="column" width="100%">
       {todos.map((todo, index) => (
         <Item
           key={todo.id}

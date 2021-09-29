@@ -47,6 +47,8 @@ fn main() {
     .add_submenu(Submenu::new(
       "Window",
       Menu::new()
+        .add_item(custom_menu("Toggle Theme").accelerator("cmdOrControl+b"))
+        .add_native_item(MenuItem::Separator)
         .add_native_item(MenuItem::Minimize)
         .add_native_item(MenuItem::EnterFullScreen)
         .add_native_item(MenuItem::Zoom),

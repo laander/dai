@@ -1,6 +1,5 @@
 import { List } from "./List";
-import { ChakraProvider, Grid, GridItem } from "@chakra-ui/react";
-import theme from "../theme";
+import { Grid, GridItem } from "@chakra-ui/react";
 import Header from "./Header";
 import { useHotkeys } from "react-hotkeys-hook";
 import useTodos from "../hooks/useTodos";
@@ -73,40 +72,37 @@ function App() {
   );
 
   return (
-    <ChakraProvider theme={theme}>
-      <Grid
-        templateRows="max-content auto max-content"
-        width="100%"
-        maxHeight="100vh"
-        padding="2"
-      >
-        <GridItem>
-          <Header
-            canUndo={canUndo}
-            canRedo={canRedo}
-            triggerUndo={undo}
-            triggerRedo={redo}
-          />
-        </GridItem>
-        <GridItem maxHeight="100%" __css={{ overflowY: "auto" }}>
-          <List
-            todos={todos}
-            focusedIndex={focusedIndex}
-            setFocus={setFocus}
-            toggleDone={toggleDone}
-            changeName={changeName}
-            remove={remove}
-          />
-        </GridItem>
-        <GridItem>
-          <New
-            addNewTodo={addNew}
-            focus={setFocus}
-            isFocused={focusedIndex === -1}
-          />
-        </GridItem>
-      </Grid>
-    </ChakraProvider>
+    <Grid
+      templateRows="max-content auto max-content"
+      width="100%"
+      maxHeight="100vh"
+    >
+      <GridItem padding="2">
+        <Header
+          canUndo={canUndo}
+          canRedo={canRedo}
+          triggerUndo={undo}
+          triggerRedo={redo}
+        />
+      </GridItem>
+      <GridItem maxHeight="100%" __css={{ overflowY: "auto" }} marginX="2">
+        <List
+          todos={todos}
+          focusedIndex={focusedIndex}
+          setFocus={setFocus}
+          toggleDone={toggleDone}
+          changeName={changeName}
+          remove={remove}
+        />
+      </GridItem>
+      <GridItem padding="2">
+        <New
+          addNewTodo={addNew}
+          focus={setFocus}
+          isFocused={focusedIndex === -1}
+        />
+      </GridItem>
+    </Grid>
   );
 }
 
